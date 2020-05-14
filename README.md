@@ -19,16 +19,16 @@
   <img src="img/architecture.png" alt="architecture" width="85%">
 </p>
 
-- Kafka Producer
+- <b>Kafka Producer</b>
   - 키움 OpenAPI 등으로 종목 분봉 데이터를 실시간으로 수집하여 Kafka에 전송해주는 producer 프로세스
   - 분석 대상 종목들의 최근 n개 분봉을 전송
-- Kafka
+- <b>Kafka</b>
   - 분봉 데이터 저장 Queue
-- 실시간 과거 패턴 찾기
+- <b>실시간 과거 패턴 찾기</b>
   - 본 레포지터리의 구현 범위
   - Spark Streaming Job으로 Kafka의 데이터를 입력 받아 실시간으로 분석
   - 분석 결과를 FS에 저장
-- ELK Stack
+- <b>ELK Stack</b>
   - Logstash, Elasticsearch, Kibana를 이용하여 실시간 분석 결과를 시각화
   - Logstash: 저장된 분석 결과를 Elasticsearch에 입력
   - Kibana: 실시간 분석 결과를 대시보드에 시각화
@@ -45,17 +45,30 @@ Spark Streaming Job은 종목의 최근 n개 분봉을 입력받으면,
 </p>
 
 
+### 분석 스펙
+
+- Spark Mode
+  - Standalone mode (별도의 Hadoop cluster 없이 동작)
+  - (Hadoop cluster 모드는 추후 고려 예정)
+- Streaming Perfomance
+  - 10개 이내 종목에 대해 1분 단위 (batchInterval) 스트리밍 분석
+  - default batchInterval은 5분으로 설정됨
+- 분석 데이터 길이
+  - window slide 길이 n: 59 분봉
+  - 과거치 분봉 데이터 길이: 629 분봉
+
+
 ### 소스 코드
 
-- StockPatternStream.scala
+- <b>StockPatternStream.scala</b>
   - 메인 싱글톤. arguments parsing 및 분석 함수 호출
-- Preprocessor.scala
+- <b>Preprocessor.scala</b>
   - DataFrame 전처리 수행
-- PatternFinder.scala
+- <b>PatternFinder.scala</b>
   - Spark ML을 이용한 Correlation 계산
-- StreamingManager.scala
+- <b>StreamingManager.scala</b>
   - Spark Streaming 정의
-- CommonUtils.scala
+- <b>CommonUtils.scala</b>
   - 유틸리티 함수 모음
 
 ## How to use
@@ -79,7 +92,7 @@ sbt assembly
 spark submit
 ```
 spark-submit jarfile --hist-path [path1] --symb2name-path [path2] --output-dir [path3]
-        --kafka-bootstrap-server [addr] --kafka-group-id [id] --kafka-topic [topic]
+        --kafka-bootstrap-server [addr] --kafka-group-id [id] --kafka-topic [topic] --batch-interval [seconds]
 
 arguments
  --hist-path: 종목별 과거 분봉 데이터 경로
@@ -88,6 +101,7 @@ arguments
  --kafka-bootstrap-server: 카프카 부트스트랩 주소 (localhost:9092)
  --kafka-group-id: 컨슈머 그룹 ID
  --kafka-topic: 토픽명
+ --batch-interval: Spark Streaming 배치 간격 (default: 300)
 ```
 
 
