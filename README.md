@@ -98,7 +98,13 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
     A097950,CJ제일제당,20190709,284000.0,20190404,325000.0,20190930,0.949744
     ...(하략)...
     ```
-  
+  - 시각화 예시 (CJ제일제당, A097950)
+    <p align="left">
+      <img src="img/result_plot.png" alt="result_plot" width="50%">
+    </p>
+
+
+ 
 ### 1.5. 주요 소스 코드
 
 - <b>StockPatternStream.scala</b>
