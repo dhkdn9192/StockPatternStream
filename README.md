@@ -120,7 +120,7 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 
 ## 2. How to use
 
-### 2.1. Prerequisite
+### 2.1. Prerequisites
 |name|version|
 |:---|:---|
 |Scala|2.11.12|
