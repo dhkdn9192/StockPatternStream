@@ -64,9 +64,9 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 ### 1.4. Input/Output 데이터 구조
 현재 일봉 데이터로 분봉을 대체하고 있으며, 추후 분봉으로 변경 예정임
 
-|input| -> |output|
+|input data| -> |output data|
 |:---:|:---:|:---:|
-|종목별 과거분봉 데이터</br>종목별 실시간 분봉 데이터</br>종목코드->종목명 매핑 테이블|*spark streaming job*|실시간 분석 결과|
+|종목별 과거분봉 데이터</br>종목별 실시간 분봉 데이터</br>종목코드->종목명 매핑 테이블|(*spark streaming job*)|실시간 분석 결과|
 
 - (Input) <b>종목별 과거 분봉 데이터</b>
   - 입력 방식: spark-submit argument 중 ```--hist-path [file path]```로 파일 경로 입력
