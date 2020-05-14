@@ -50,13 +50,13 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 
 ### 분석 스펙
 
-- Spark Mode
-  - Standalone mode (별도의 Hadoop cluster 없이 동작)
+- <b>Spark Mode</b>
+  - Standalone (별도의 Hadoop cluster 없이 동작)
   - (Hadoop cluster 모드는 추후 고려 예정)
-- Streaming Perfomance
+- <b>Streaming Perfomance</b>
   - 10개 이내 종목에 대해 1분 단위 (batchInterval) 스트리밍 분석
   - default batchInterval은 5분으로 설정됨
-- 분석 데이터 길이
+- <b>분석 데이터 길이</b>
   - window slide 길이 n: 59 분봉
   - 과거치 분봉 데이터 길이: 629 분봉
   
