@@ -132,6 +132,8 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 |Apache Spark|2.4.5|
 |spark-streaming-kafka|0.10.0|
 
+- Spark은 standalone으로 동작함
+
 ### 2.2. Usage
 
 create fat jar
