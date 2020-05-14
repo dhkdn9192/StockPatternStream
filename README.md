@@ -37,12 +37,15 @@
 
 본 프로세스에선 종목의 과거 주가 차트에 window sliding을 적용하여 n 크기의 슬라이드들을 생성합니다.
 
-Spark Streaming Job은 종목의 최근 n개 분봉을 입력받으면, 
-미리 생성한 슬라이드들과 입력 분봉의 상관관계를 분석하여 최근과 가장 유사한 슬라이드를 찾습니다.
+Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면, 
+미리 생성한 슬라이드들과 Pearson 상관계수를 계산하여 가장 유사한 슬라이드를 찾습니다.
 
 <p align="center">
   <img src="img/job_input_output.png" alt="job_input_output" width="60%">
 </p>
+
+한 종목에 대하여 위와 같은 패턴 찾기 작업이 parallel하게 수행됩니다. 
+분석 대상 종목이 여러 개인 경우, 본 작업을 각 종목에 대해 순차적으로 수행합니다.
 
 
 ### 분석 스펙
