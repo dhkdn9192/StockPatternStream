@@ -11,6 +11,30 @@ import com.bigdata.CommonUtils.BroadcastItems
 
 object StockPatternStream {
 
+  /**
+   * argument parse
+   * @param map: scala Map
+   * @param argList: argument 문자열 리스트
+   * @return 키-밸류 Map
+   */
+  @scala.annotation.tailrec
+  def parseArgs(map : Map[Symbol, Any], argList: List[String]): Map[Symbol, Any] = {
+    argList match {
+      case Nil => map
+      case "--hist-path" :: value :: tail => parseArgs(map ++ Map('histpath -> value.toString), tail)
+      case "--symb2name-path" :: value :: tail => parseArgs(map ++ Map('symb2name -> value.toString), tail)
+      case "--output-dir" :: value :: tail => parseArgs(map ++ Map('outputdir -> value.toString), tail)
+      case "--kafka-bootstrap-server" :: value :: tail => parseArgs(map ++ Map('bootstrap -> value.toString), tail)
+      case "--kafka-group-id" :: value :: tail => parseArgs(map ++ Map('groupid -> value.toString), tail)
+      case "--kafka-topic" :: value :: tail => parseArgs(map ++ Map('topic -> value.toString), tail)
+      case "--hist-size" :: value :: tail => parseArgs(map ++ Map('histsize -> value.toInt), tail)
+      case "--rt-size" :: value :: tail => parseArgs(map ++ Map('rtsize -> value.toInt), tail)
+      case "--batch-interval" :: value :: tail => parseArgs(map ++ Map('batchinterval -> value.toInt), tail)
+      case option :: tail => println("Unknown argument " + option)
+        sys.exit(1)
+    }
+  }
+
   def main(args: Array[String]): Unit = {
 
     val usage =
@@ -19,7 +43,7 @@ object StockPatternStream {
 
     // arguments parsing
     if (args.length == 0) println(usage)
-    val env = CommonUtils.parseArgs(Map(), args.toList)
+    val env = parseArgs(Map(), args.toList)
     val histPath = env.getOrElse('histpath, "/data/ailabHome/elasticHome/historyPattern/histQuotes.json").toString
     val symb2namePath = env.getOrElse('symb2name, "/data/ailabHome/elasticHome/historyPattern/symb2nameDic.json").toString
     val outputDir = env.getOrElse('outputdir, "/data/ailabHome/elasticHome/historyPattern/correlation").toString

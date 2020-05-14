@@ -19,29 +19,6 @@ object CommonUtils {
    */
   case class BroadcastItems(histSize: Int, rtSize: Int, batchInterval: Int, outputDir: String) {}
 
-  /**
-   * argument parse
-   * @param map: scala Map
-   * @param argList: argument 문자열 리스트
-   * @return 키-밸류 Map
-   */
-  @scala.annotation.tailrec
-  def parseArgs(map : Map[Symbol, Any], argList: List[String]) : Map[Symbol, Any] = {
-    argList match {
-      case Nil => map
-      case "--hist-path" :: value :: tail => parseArgs(map ++ Map('histpath -> value.toString), tail)
-      case "--symb2name-path" :: value :: tail => parseArgs(map ++ Map('symb2name -> value.toString), tail)
-      case "--output-dir" :: value :: tail => parseArgs(map ++ Map('outputdir -> value.toString), tail)
-      case "--kafka-bootstrap-server" :: value :: tail => parseArgs(map ++ Map('bootstrap -> value.toString), tail)
-      case "--kafka-group-id" :: value :: tail => parseArgs(map ++ Map('groupid -> value.toString), tail)
-      case "--kafka-topic" :: value :: tail => parseArgs(map ++ Map('topic -> value.toString), tail)
-      case "--hist-size" :: value :: tail => parseArgs(map ++ Map('histsize -> value.toInt), tail)
-      case "--rt-size" :: value :: tail => parseArgs(map ++ Map('rtsize -> value.toInt), tail)
-      case "--batch-interval" :: value :: tail => parseArgs(map ++ Map('batchinterval -> value.toInt), tail)
-      case option :: tail => println("Unknown argument " + option)
-        sys.exit(1)
-    }
-  }
 
   def getHistPriceMap(spark: SparkSession, rawPriceDf: DataFrame, priceSize: Int,
                       dates: Array[String]): Map[String, Map[String, Double]] = {
