@@ -104,9 +104,9 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 |name|version|
 |:---|:---|
 |Scala|2.11.12|
-|sbt|1.3.10|
-|Java|1.8.0|
-|Spark|2.4.5|
+|SBT|1.3.10|
+|JDK|1.8.0|
+|Apache Spark|2.4.5|
 |spark-streaming-kafka|0.10.0|
 
 ### Usage
