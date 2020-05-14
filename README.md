@@ -12,9 +12,23 @@
 라는 아이디어를 Spark Streaming으로 구현한 것입니다.
 
 
-## Architecture
+## 1. Architecture
 
-### 전체 구성
+### 1.1. 실시간 과거 패턴 찾기
+
+본 프로세스에선 종목의 과거 주가 차트에 window sliding을 적용하여 n 크기의 슬라이드들을 생성합니다.
+
+Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면, 
+미리 생성한 슬라이드들과 Pearson 상관계수를 계산하여 가장 유사한 슬라이드를 찾습니다.
+
+<p align="center">
+  <img src="img/job_input_output.png" alt="job_input_output" width="60%">
+</p>
+
+한 종목에 대하여 위와 같은 패턴 찾기 작업이 parallel하게 수행됩니다. 
+분석 대상 종목이 여러 개인 경우, 본 작업을 각 종목에 대해 순차적으로 수행합니다.
+
+### 1.2. 전체 구성
 <p align="center">
   <img src="img/architecture.png" alt="architecture" width="85%">
 </p>
@@ -33,22 +47,8 @@
   - Logstash: 저장된 분석 결과를 Elasticsearch에 입력
   - Kibana: 실시간 분석 결과를 대시보드에 시각화
 
-### 실시간 과거 패턴 찾기
 
-본 프로세스에선 종목의 과거 주가 차트에 window sliding을 적용하여 n 크기의 슬라이드들을 생성합니다.
-
-Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면, 
-미리 생성한 슬라이드들과 Pearson 상관계수를 계산하여 가장 유사한 슬라이드를 찾습니다.
-
-<p align="center">
-  <img src="img/job_input_output.png" alt="job_input_output" width="60%">
-</p>
-
-한 종목에 대하여 위와 같은 패턴 찾기 작업이 parallel하게 수행됩니다. 
-분석 대상 종목이 여러 개인 경우, 본 작업을 각 종목에 대해 순차적으로 수행합니다.
-
-
-### 분석 스펙
+### 1.3. 분석 스펙
 
 - <b>Spark Mode</b>
   - Standalone (별도의 Hadoop cluster 없이 동작)
@@ -60,7 +60,7 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
   - window slide 길이 n: 59 분봉
   - 과거치 분봉 데이터 길이: 629 분봉
   
-### Input/Output 데이터 구조
+### 1.4. Input/Output 데이터 구조
 현재 일봉 데이터로 분봉을 대체하고 있으며, 추후 분봉으로 변경 예정임
 
 |input| -> |output|
@@ -99,8 +99,7 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
     ...(하략)...
     ```
   
-
-### 소스 코드
+### 1.5. 주요 소스 코드
 
 - <b>StockPatternStream.scala</b>
   - 메인 싱글톤. arguments parsing 및 분석 함수 호출
@@ -113,9 +112,9 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 - <b>CommonUtils.scala</b>
   - 유틸리티 함수 모음
 
-## How to use
+## 2. How to use
 
-### Prerequisite
+### 2.1. Prerequisite
 |name|version|
 |:---|:---|
 |Scala|2.11.12|
@@ -124,7 +123,7 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
 |Apache Spark|2.4.5|
 |spark-streaming-kafka|0.10.0|
 
-### Usage
+### 2.2. Usage
 
 create fat jar
 ```
@@ -148,7 +147,7 @@ arguments
 
 
 
-## Future tasks
+## 3. Future tasks
 
 - Spark Streaming과 Elasticsearch 연동, Logstash 단계 제거
 - 일봉 데이터 -> 분봉 데이터 변경 (현재 일봉 데이터로 분봉을 대체함)
