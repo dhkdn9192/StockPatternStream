@@ -61,7 +61,7 @@ Spark Streaming Job은 종목의 최근 n개 분봉을 입력받으면,
 현재 일봉 데이터로 분봉을 대체하고 있으며, 추후 분봉으로 변경 예정임
 
 - <b>종목별 과거 분봉 데이터</b>
-  - 입력 방식: spark-submit argument ```--hist-path [file path]```로 파일 경로 입력
+  - 입력 방식: spark-submit argument 중 ```--hist-path [file path]```로 파일 경로 입력
   - 데이터 포맷: json
     ```
     // {시간1:분봉가격, 시간2:분봉가격, ..., 시간629:분봉가격, symb:종목코드}
@@ -75,12 +75,12 @@ Spark Streaming Job은 종목의 최근 n개 분봉을 입력받으면,
     {"20160201": 5630,"20160202": 5633,...,"symb":"A123456"},{...},...
     ```
 - <b>종목코드->종목명 매핑 테이블</b>
-  - 입력 방식: spark-submit argument ```--symb2name-path [file path]```로 파일 경로 입력
+  - 입력 방식: spark-submit argument 중 ```--symb2name-path [file path]```로 파일 경로 입력
   - 데이터 포맷: json
-  ```
-  // [{"symb":종목코드,"name":종목명}, ...]
-  [{"symb":"A001720","name":"신영증권"},...]
-  ```
+    ```
+    // [{"symb":종목코드,"name":종목명}, ...]
+    [{"symb":"A001720","name":"신영증권"},...]
+    ```
 
 ### 소스 코드
 
