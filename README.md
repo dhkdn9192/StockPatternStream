@@ -102,9 +102,9 @@ Spark Streaming Job은 종목의 "최근 n개 분봉"을 입력받으면,
   - 데이터 시각화 예시 (CJ제일제당, 유사도 94%)
     - Now: 실시간분봉시간에 따른 실시간분봉가격
     - Then: 과거분봉시간에 따른 과거분봉가격
-      <p align="left">
-        <img src="img/result_plot.png" alt="result_plot" width="50%">
-      </p>
+    <p align="left">
+      <img src="img/result_plot.png" alt="result_plot" width="50%">
+    </p>
 
 
  
